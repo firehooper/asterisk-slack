@@ -26,7 +26,7 @@ port=5038
 username="USERNAME"
 secret="PASSWORD"
 extensions={"SIP/200":"YOU",
-            "SIP/201":"OTHER YOU"}
+            "SIP/201":"Someone else"}
 
 log = logging.getLogger("server")
 
@@ -66,8 +66,10 @@ def onDial(protocol,event):
             if destination.startswith(s):
 		        cid=event['callerid'] #if using asterisk 1.6, use calleridnum instead
 		        cidname=event['calleridname']
-		        #extname=extensions[s]
-		        sendToSlack("Incoming call for %(cidname)s\n%(cid)s call-start" % locals())
+            extname = event['destination']
+            if s in extensions:
+              extname=extensions[s]
+            sendToSlack("Incoming call for %(extname)s from %(cidname)s\n%(cid)s call-start" % locals())
 
 def checknetlink(protocol):
 
