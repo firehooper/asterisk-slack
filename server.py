@@ -64,12 +64,12 @@ def onDial(protocol,event):
         destination=event['destination']
         for s in extensions.keys():
             if destination.startswith(s):
-		        cid=event['callerid'] #if using asterisk 1.6, use calleridnum instead
-		        cidname=event['calleridname']
-            extname = event['destination']
-            if s in extensions:
-              extname=extensions[s]
-            sendToSlack("Incoming call for %(extname)s from %(cidname)s\n%(cid)s call-start" % locals())
+              cid=event['callerid'] #if using asterisk 1.6, use calleridnum instead
+              cidname=event['calleridname']
+              extname = event['destination']
+              if s in extensions:
+                extname=extensions[s]
+              sendToSlack("Incoming call for %(extname)s from %(cidname)s\n%(cid)s call-start" % locals())
 
 def checknetlink(protocol):
 
